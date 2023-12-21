@@ -1,0 +1,33 @@
+import cv2
+import numpy as np
+import os
+
+
+def rgb_segmentation_cv2(image_path, lower_threshold, upper_threshold):
+    # Görüntüyü yükle
+    image = cv2.imread(image_path)
+    
+    # Görüntüyü RGB formatına dönüştür
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    
+    # Renk aralığını belirle
+    lower_bound = np.array(lower_threshold, dtype=np.uint8)
+    upper_bound = np.array(upper_threshold, dtype=np.uint8)
+    
+    # Belirtilen renk aralığındaki pikselleri bölütlenmiş görüntüye ekle
+    segmented_image = cv2.inRange(image_rgb, lower_bound, upper_bound)
+    
+    # Bölütlenmiş görüntüyü göster
+    cv2.imshow("Segmented Image", segmented_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    # Bölütlenmiş görüntüyü kaydet
+    cv2.imwrite("segmented_image_cv2.jpg", segmented_image)
+
+# Örnek kullanım
+image_path = "C:/Users/yasin/Desktop/Pictures/picture3.jpg"
+
+lower_threshold_value = [100, 100, 100]  # Örnek alt eşik değeri
+upper_threshold_value = [255, 255, 255]  # Örnek üst eşik değeri
+rgb_segmentation_cv2(image_path, lower_threshold_value, upper_threshold_value)
